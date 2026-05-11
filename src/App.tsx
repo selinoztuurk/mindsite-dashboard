@@ -3,7 +3,6 @@ import { AppShell } from './components/AppShell/AppShell';
 import { ChartVisibilityProvider } from './context/ChartVisibilityContext';
 import { Dashboard } from './screens/Dashboard/Dashboard';
 import { Settings } from './screens/Settings/Settings';
-import './App.css';
 
 export const AppRoutes = () => {
   return (
