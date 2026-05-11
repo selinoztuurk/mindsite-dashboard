@@ -1,70 +1,85 @@
-# Getting Started with Create React App
+# Mindsite Dashboard
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Retail intelligence dashboard for monitoring buybox performance, availability, search visibility, and share of voice. The UI is built with React and TypeScript, uses Recharts for bar and trend charts, and persists layout preferences in the browser.
 
-## Available Scripts
+## Features
 
-In the project directory, you can run:
+- **Dashboard** — Four metric cards: buybox win rate, retailer availability, search visibility trend, and share of voice by category.
+- **Chart controls** — Toggle individual series labels per chart and collapse or expand chart content from each card.
+- **Settings** — Choose which charts appear on the dashboard and set each card to half or full width.
+- **Persistence** — Chart visibility and width preferences are saved in `localStorage` and restored on reload.
+- **Internationalization** — English and Turkish, with browser language detection and a header language switcher.
 
-### `npm start`
+## Tech stack
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- React 19 and TypeScript
+- React Router for dashboard and settings routes
+- Recharts for bar and trend visualizations
+- i18next and react-i18next for translations
+- Create React App (`react-scripts`) for development and production builds
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Prerequisites
 
-### `npm test`
+- Node.js (LTS recommended)
+- npm
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Getting started
 
-### `npm run build`
+Install dependencies:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```bash
+npm install
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Start the development server:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```bash
+npm start
+```
 
-### `npm run eject`
+Open [http://localhost:3000](http://localhost:3000). The dev server reloads when you change source files.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## Scripts
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+| Command | Description |
+| --- | --- |
+| `npm start` | Run the app in development mode |
+| `npm test` | Run tests in interactive watch mode |
+| `npm run build` | Create an optimized production build in `build/` |
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## Project layout
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+```text
+src/
+  components/     Shared UI: chart cards, navigation, metric charts, controls
+  context/        Chart visibility, expansion, and width state
+  data/charts/    Chart catalog and mock chart definitions
+  hooks/          Data loading for dashboard charts
+  i18n/           Translation setup and locale files
+  screens/        Dashboard and Settings pages
+  services/       Async chart loading (mocked delay today)
+  storage/        localStorage helpers for user preferences
+  theme/          Shared chart colors
+  types/          Dashboard and chart TypeScript types
+```
 
-## Learn More
+Chart metadata lives in `src/data/charts/catalog.ts`. Each chart has a loader in `src/data/charts/` and is fetched through `src/services/dashboardChartService.ts`, which simulates network latency before returning mock data.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## Testing
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Tests use React Testing Library and cover dashboard rendering, settings-driven visibility and width changes, per-chart label toggles, card expand/collapse controls, and `localStorage` persistence. Run them with:
 
-### Code Splitting
+```bash
+npm test
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## Adding a chart
 
-### Analyzing the Bundle Size
+1. Add a chart id in `src/data/charts/chartIds.ts`.
+2. Implement a loader that returns a `DashboardChartDefinition` in `src/data/charts/`.
+3. Register the loader in `src/data/charts/index.ts` and add the chart to `src/data/charts/catalog.ts`.
+4. Add copy under `charts.<id>` in `src/i18n/locales/en.json` and `src/i18n/locales/tr.json`.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+## Localization
 
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Supported languages are defined in `src/i18n/index.ts`. Locale strings live in `src/i18n/locales/`. The active language is detected from `localStorage` and the browser, then cached in `localStorage` when changed from the UI.
