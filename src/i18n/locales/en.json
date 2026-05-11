@@ -16,6 +16,10 @@
     "title": "Performance dashboard",
     "subtitle": "Shared label colors keep brands and retailers recognizable across charts."
   },
+  "dashboardChart": {
+    "loading": "Loading {{chart}}",
+    "error": "Unable to load {{chart}}."
+  },
   "charts": {
     "buybox": {
       "title": "Buybox Win Rate by Brand",

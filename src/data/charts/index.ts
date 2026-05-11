@@ -1,20 +1,18 @@
-import type { DashboardChartDefinition } from '../../types/dashboard';
+import type { DashboardChartDefinition, DashboardChartId } from '../../types/dashboard';
 import { getAvailabilityChart } from './availabilityChart';
 import { getBuyboxChart } from './buyboxChart';
+import { availabilityChartId, buyboxChartId, searchVisibilityChartId, shareOfVoiceChartId } from './chartIds';
 import { getSearchVisibilityChart } from './searchVisibilityChart';
 import { getShareOfVoiceChart } from './shareOfVoiceChart';
 
 export type DashboardChartLoader = () => DashboardChartDefinition;
 
-export const dashboardChartLoaders: DashboardChartLoader[] = [
-  getBuyboxChart,
-  getAvailabilityChart,
-  getSearchVisibilityChart,
-  getShareOfVoiceChart,
-];
-
-export const loadDashboardCharts = (): DashboardChartDefinition[] =>
-  dashboardChartLoaders.map((loadChart) => loadChart());
+export const dashboardChartFetchers: Record<DashboardChartId, DashboardChartLoader> = {
+  [buyboxChartId]: getBuyboxChart,
+  [availabilityChartId]: getAvailabilityChart,
+  [searchVisibilityChartId]: getSearchVisibilityChart,
+  [shareOfVoiceChartId]: getShareOfVoiceChart,
+};
 
 export {
   dashboardChartCatalog,

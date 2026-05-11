@@ -1,31 +1,13 @@
 import { useTranslation } from 'react-i18next';
-import { ChartCard } from '../../components/ChartCard/ChartCard';
-import { MetricBarChart } from '../../components/MetricBarChart/MetricBarChart';
-import { MetricTrendChart } from '../../components/MetricTrendChart/MetricTrendChart';
+import { dashboardChartCatalog } from '../../data/charts';
+import { DashboardChartCard } from '../../components/DashboardChartCard/DashboardChartCard';
 import { useChartVisibility } from '../../context/ChartVisibilityContext';
-import { useDashboardCharts } from '../../hooks/useDashboardCharts';
-import type { ChartWidth, DashboardChartDefinition } from '../../types/dashboard';
 import './Dashboard.css';
-
-const getChartWidthClassName = (width: ChartWidth) =>
-  width === 'full' ? 'dashboard__chart--full' : 'dashboard__chart--half';
-
-const renderDashboardChart = (
-  chart: DashboardChartDefinition,
-  valueLabel: string
-) => {
-  if (chart.type === 'bar') {
-    return <MetricBarChart data={chart.points} valueLabel={valueLabel} />;
-  }
-
-  return <MetricTrendChart data={chart.points} valueLabel={valueLabel} />;
-};
 
 export const Dashboard = () => {
   const { t } = useTranslation();
-  const dashboardCharts = useDashboardCharts();
-  const { visibility, expansion, widths, toggleChartExpansion } = useChartVisibility();
-  const visibleCharts = dashboardCharts.filter((chart) => visibility[chart.id]);
+  const { visibility } = useChartVisibility();
+  const visibleCharts = dashboardChartCatalog.filter((chart) => visibility[chart.id]);
 
   return (
     <main className="dashboard">
@@ -40,19 +22,7 @@ export const Dashboard = () => {
       {visibleCharts.length > 0 ? (
         <div className="dashboard__grid">
           {visibleCharts.map((chart) => (
-            <ChartCard
-              key={chart.id}
-              className={getChartWidthClassName(widths[chart.id])}
-              title={t(`charts.${chart.id}.title`)}
-              description={t(`charts.${chart.id}.description`)}
-              isChartVisible={expansion[chart.id]}
-              onToggleChartVisibility={() => toggleChartExpansion(chart.id)}
-            >
-              {renderDashboardChart(
-                chart,
-                t(`charts.${chart.id}.valueLabel`)
-              )}
-            </ChartCard>
+            <DashboardChartCard key={chart.id} chartId={chart.id} />
           ))}
         </div>
       ) : (

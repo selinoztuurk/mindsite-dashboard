@@ -1,0 +1,29 @@
+.chart-loading-spinner {
+  align-items: center;
+  color: #64748b;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 0.75rem;
+  justify-content: center;
+  min-height: 280px;
+}
+
+.chart-loading-spinner__visual {
+  animation: chart-loading-spinner-rotate 0.8s linear infinite;
+  border: 3px solid #e2e8f0;
+  border-radius: 999px;
+  border-top-color: #4f46e5;
+  height: 2.25rem;
+  width: 2.25rem;
+}
+
+.chart-loading-spinner__label {
+  font-size: 0.9rem;
+}
+
+@keyframes chart-loading-spinner-rotate {
+  to {
+    transform: rotate(360deg);
+  }
+}

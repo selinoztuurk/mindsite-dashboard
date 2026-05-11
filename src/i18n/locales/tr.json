@@ -16,6 +16,10 @@
     "title": "Performans paneli",
     "subtitle": "Paylaşılan etiket renkleri, markaların ve perakendecilerin grafikler arasında kolayca ayırt edilmesini sağlar."
   },
+  "dashboardChart": {
+    "loading": "{{chart}} yükleniyor",
+    "error": "{{chart}} yüklenemedi."
+  },
   "charts": {
     "buybox": {
       "title": "Markaya Göre Buybox Kazanma Oranı",

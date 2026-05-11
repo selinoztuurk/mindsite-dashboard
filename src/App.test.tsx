@@ -1,12 +1,22 @@
-import { render, screen, within } from '@testing-library/react';
+import { render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router-dom';
 import { AppRoutes } from './App';
 import { ChartVisibilityProvider } from './context/ChartVisibilityContext';
+import { dashboardChartFetchers } from './data/charts';
+import { fetchDashboardChart } from './services/dashboardChartService';
 import { CHART_VISIBILITY_STORAGE_KEY } from './storage/chartVisibilityStorage';
 import { CHART_WIDTH_STORAGE_KEY } from './storage/chartWidthStorage';
 
-const renderApp = (initialRoute = '/') => {
+jest.mock('./services/dashboardChartService');
+
+const waitForDashboardChartsToLoad = async () => {
+  await waitFor(() => {
+    expect(screen.queryAllByRole('status')).toHaveLength(0);
+  });
+};
+
+const renderApp = async (initialRoute = '/') => {
   render(
     <ChartVisibilityProvider>
       <MemoryRouter initialEntries={[initialRoute]}>
@@ -14,14 +24,21 @@ const renderApp = (initialRoute = '/') => {
       </MemoryRouter>
     </ChartVisibilityProvider>
   );
+
+  if (initialRoute === '/') {
+    await waitForDashboardChartsToLoad();
+  }
 };
 
 beforeEach(() => {
   window.localStorage.clear();
+  jest.mocked(fetchDashboardChart).mockImplementation((chartId) =>
+    Promise.resolve(dashboardChartFetchers[chartId]())
+  );
 });
 
-test('renders dashboard charts', () => {
-  renderApp();
+test('renders dashboard charts', async () => {
+  await renderApp();
   expect(screen.getByText(/performance dashboard/i)).toBeInTheDocument();
   expect(screen.getByRole('heading', { name: /buybox win rate by brand/i })).toBeInTheDocument();
   expect(screen.getByRole('heading', { name: /overall search visibility trend/i })).toBeInTheDocument();
@@ -36,6 +53,7 @@ test('hides and shows charts completely from settings controls', async () => {
 
   await userEvent.click(searchVisibilityCheckbox);
   await userEvent.click(screen.getByRole('link', { name: /dashboard/i }));
+  await waitForDashboardChartsToLoad();
 
   expect(
     screen.queryByRole('heading', { name: /overall search visibility trend/i })
@@ -48,17 +66,18 @@ test('hides and shows charts completely from settings controls', async () => {
     })
   );
   await userEvent.click(screen.getByRole('link', { name: /dashboard/i }));
+  await waitForDashboardChartsToLoad();
 
   expect(
     screen.getByRole('heading', { name: /overall search visibility trend/i })
   ).toBeInTheDocument();
   expect(
-    screen.getByRole('button', { name: /hide overall search visibility trend/i })
+    await screen.findByRole('button', { name: /hide overall search visibility trend/i })
   ).toBeInTheDocument();
 });
 
 test('hides and shows chart labels from chart controls', async () => {
-  renderApp();
+  await renderApp();
 
   const buyboxCard = screen
     .getByRole('heading', { name: /buybox win rate by brand/i })
@@ -68,7 +87,7 @@ test('hides and shows chart labels from chart controls', async () => {
     throw new Error('Buybox chart card was not found.');
   }
 
-  const northwindToggle = within(buyboxCard).getByRole('button', {
+  const northwindToggle = await within(buyboxCard).findByRole('button', {
     name: /toggle northwind/i,
   });
 
@@ -82,7 +101,7 @@ test('hides and shows chart labels from chart controls', async () => {
 });
 
 test('hides and shows charts from chart card controls', async () => {
-  renderApp();
+  await renderApp();
 
   const searchVisibilityCard = screen
     .getByRole('heading', { name: /overall search visibility trend/i })
@@ -92,7 +111,7 @@ test('hides and shows charts from chart card controls', async () => {
     throw new Error('Search visibility chart card was not found.');
   }
 
-  const hideButton = within(searchVisibilityCard).getByRole('button', {
+  const hideButton = await within(searchVisibilityCard).findByRole('button', {
     name: /hide overall search visibility trend/i,
   });
 
@@ -140,6 +159,7 @@ test('updates chart width from settings controls', async () => {
 
   await userEvent.selectOptions(buyboxWidthSelect, 'full');
   await userEvent.click(screen.getByRole('link', { name: /dashboard/i }));
+  await waitForDashboardChartsToLoad();
 
   const buyboxCard = screen
     .getByRole('heading', { name: /buybox win rate by brand/i })
@@ -164,7 +184,7 @@ test('persists chart width in local storage', async () => {
   expect(storedWidths.buybox).toBe('full');
 });
 
-test('loads chart width from local storage', () => {
+test('loads chart width from local storage', async () => {
   window.localStorage.setItem(
     CHART_WIDTH_STORAGE_KEY,
     JSON.stringify({
@@ -175,7 +195,7 @@ test('loads chart width from local storage', () => {
     })
   );
 
-  renderApp();
+  await renderApp();
 
   const buyboxCard = screen
     .getByRole('heading', { name: /buybox win rate by brand/i })
@@ -184,7 +204,7 @@ test('loads chart width from local storage', () => {
   expect(buyboxCard).toHaveClass('dashboard__chart--full');
 });
 
-test('loads chart visibility from local storage', () => {
+test('loads chart visibility from local storage', async () => {
   window.localStorage.setItem(
     CHART_VISIBILITY_STORAGE_KEY,
     JSON.stringify({
@@ -195,7 +215,7 @@ test('loads chart visibility from local storage', () => {
     })
   );
 
-  renderApp();
+  await renderApp();
 
   expect(
     screen.queryByRole('heading', { name: /overall search visibility trend/i })
