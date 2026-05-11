@@ -14,6 +14,7 @@ import {
 import { ChartLabelToggles } from '../ChartLabelToggles/ChartLabelToggles';
 import { chartTheme, getLabelColor } from '../../theme/chartColors';
 import '../MetricChart/MetricChart.css';
+import { createMetricBarTooltipRenderer } from './MetricBarTooltip';
 import type { MetricBarChartProps } from './MetricBarChart.types';
 
 function formatPercent(value: number): string {
@@ -54,6 +55,10 @@ export const MetricBarChart = ({ data, valueLabel = 'Value' }: MetricBarChartPro
     () => data.filter((point) => !hiddenLabels.includes(point.label)),
     [data, hiddenLabels]
   );
+  const tooltipContent = useMemo(
+    () => createMetricBarTooltipRenderer(valueLabel),
+    [valueLabel]
+  );
 
   return (
     <div className="metric-chart">
@@ -86,14 +91,7 @@ export const MetricBarChart = ({ data, valueLabel = 'Value' }: MetricBarChartPro
               />
               <Tooltip
                 cursor={{ fill: 'rgba(148, 163, 184, 0.12)' }}
-                contentStyle={{
-                  backgroundColor: chartTheme.tooltipBackground,
-                  border: 'none',
-                  borderRadius: 10,
-                  color: chartTheme.tooltipText,
-                }}
-                formatter={(value) => [formatPercent(Number(value)), valueLabel]}
-                labelStyle={{ color: chartTheme.tooltipText }}
+                content={tooltipContent}
               />
               <Bar
                 dataKey="value"

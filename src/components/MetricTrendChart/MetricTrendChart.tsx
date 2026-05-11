@@ -1,5 +1,5 @@
-import { useCallback, useMemo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import { useCallback, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 import {
   CartesianGrid,
   Line,
@@ -8,12 +8,12 @@ import {
   Tooltip,
   XAxis,
   YAxis,
-} from 'recharts';
-import { ChartLabelToggles } from '../ChartLabelToggles/ChartLabelToggles';
-import { chartTheme, getLabelColor } from '../../theme/chartColors';
-import { getTrendSeriesLabels } from '../../utils/trendChartLabels';
-import '../MetricChart/MetricChart.css';
-import type { MetricTrendChartProps } from './MetricTrendChart.types';
+} from "recharts";
+import { ChartLabelToggles } from "../ChartLabelToggles/ChartLabelToggles";
+import { chartTheme, getLabelColor } from "../../theme/chartColors";
+import { getTrendSeriesLabels } from "../../utils/trendChartLabels";
+import "../MetricChart/MetricChart.css";
+import type { MetricTrendChartProps } from "./MetricTrendChart.types";
 
 function formatPercent(value: number): string {
   return `${value}%`;
@@ -21,7 +21,7 @@ function formatPercent(value: number): string {
 
 export const MetricTrendChart = ({
   data,
-  valueLabel = 'Visibility',
+  valueLabel = "Visibility",
 }: MetricTrendChartProps) => {
   const { t } = useTranslation();
   const [hiddenLabels, setHiddenLabels] = useState<string[]>([]);
@@ -31,7 +31,7 @@ export const MetricTrendChart = ({
     setHiddenLabels((currentHiddenLabels) =>
       currentHiddenLabels.includes(label)
         ? currentHiddenLabels.filter((currentLabel) => currentLabel !== label)
-        : [...currentHiddenLabels, label]
+        : [...currentHiddenLabels, label],
     );
   }, []);
 
@@ -41,12 +41,12 @@ export const MetricTrendChart = ({
         period: point.period,
         ...point.values,
       })),
-    [data]
+    [data],
   );
 
   const visibleLabels = useMemo(
     () => labels.filter((label) => !hiddenLabels.includes(label)),
-    [hiddenLabels, labels]
+    [hiddenLabels, labels],
   );
 
   return (
@@ -59,8 +59,15 @@ export const MetricTrendChart = ({
       {visibleLabels.length > 0 ? (
         <div className="metric-chart__canvas">
           <ResponsiveContainer width="100%" height="100%" minHeight={280}>
-            <LineChart data={chartData} margin={{ top: 8, right: 16, left: 0, bottom: 8 }}>
-              <CartesianGrid stroke={chartTheme.grid} strokeDasharray="4 4" vertical={false} />
+            <LineChart
+              data={chartData}
+              margin={{ top: 8, right: 16, left: 0, bottom: 8 }}
+            >
+              <CartesianGrid
+                stroke={chartTheme.grid}
+                strokeDasharray="4 4"
+                vertical={false}
+              />
               <XAxis
                 dataKey="period"
                 tick={{ fill: chartTheme.axis, fontSize: 12 }}
@@ -77,11 +84,14 @@ export const MetricTrendChart = ({
               <Tooltip
                 contentStyle={{
                   backgroundColor: chartTheme.tooltipBackground,
-                  border: 'none',
+                  border: "none",
                   borderRadius: 10,
                   color: chartTheme.tooltipText,
                 }}
-                formatter={(value) => [formatPercent(Number(value)), valueLabel]}
+                formatter={(value) => [
+                  formatPercent(Number(value)),
+                  valueLabel,
+                ]}
                 labelStyle={{ color: chartTheme.tooltipText }}
               />
               {visibleLabels.map((label) => (
@@ -100,7 +110,7 @@ export const MetricTrendChart = ({
           </ResponsiveContainer>
         </div>
       ) : (
-        <p className="metric-chart__empty">{t('chartLabels.emptyState')}</p>
+        <p className="metric-chart__empty">{t("chartLabels.emptyState")}</p>
       )}
     </div>
   );
