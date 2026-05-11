@@ -60,6 +60,11 @@
     "may": "May",
     "jun": "Haz"
   },
+  "chartLabels": {
+    "groupLabel": "Grafik etiketleri",
+    "toggleLabel": "{{label}} etiketini aç/kapat",
+    "emptyState": "Grafik verisini görmek için en az bir etiket seçin."
+  },
   "chartWidth": {
     "label": "Grafik genişlikleri",
     "half": "Yarım genişlik",

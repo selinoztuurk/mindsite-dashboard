@@ -57,6 +57,30 @@ test('hides and shows charts completely from settings controls', async () => {
   ).toBeInTheDocument();
 });
 
+test('hides and shows chart labels from chart controls', async () => {
+  renderApp();
+
+  const buyboxCard = screen
+    .getByRole('heading', { name: /buybox win rate by brand/i })
+    .closest('section');
+
+  if (!buyboxCard) {
+    throw new Error('Buybox chart card was not found.');
+  }
+
+  const northwindToggle = within(buyboxCard).getByRole('button', {
+    name: /toggle northwind/i,
+  });
+
+  expect(northwindToggle).toHaveAttribute('aria-pressed', 'true');
+
+  await userEvent.click(northwindToggle);
+  expect(northwindToggle).toHaveAttribute('aria-pressed', 'false');
+
+  await userEvent.click(northwindToggle);
+  expect(northwindToggle).toHaveAttribute('aria-pressed', 'true');
+});
+
 test('hides and shows charts from chart card controls', async () => {
   renderApp();
 

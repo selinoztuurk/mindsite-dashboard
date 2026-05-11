@@ -60,6 +60,11 @@
     "may": "May",
     "jun": "Jun"
   },
+  "chartLabels": {
+    "groupLabel": "Chart labels",
+    "toggleLabel": "Toggle {{label}}",
+    "emptyState": "Select at least one label to display chart data."
+  },
   "chartWidth": {
     "label": "Chart widths",
     "half": "Half width",
