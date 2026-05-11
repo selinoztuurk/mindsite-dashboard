@@ -19,38 +19,41 @@ import { createMetricBarTooltipRenderer } from './MetricBarTooltip';
 import type { MetricBarChartProps } from './MetricBarChart.types';
 
 function renderBarShape(props: BarShapeProps) {
-  const label =
+  const seriesId =
     props.payload &&
     typeof props.payload === 'object' &&
-    'label' in props.payload &&
-    typeof props.payload.label === 'string'
-      ? props.payload.label
+    'id' in props.payload &&
+    typeof props.payload.id === 'string'
+      ? props.payload.id
       : undefined;
 
   return (
     <Rectangle
       {...props}
-      fill={label ? getLabelColor(label) : props.fill}
+      fill={seriesId ? getLabelColor(seriesId) : props.fill}
     />
   );
 }
 
 export const MetricBarChart = ({ data, valueLabel = 'Value' }: MetricBarChartProps) => {
   const { t } = useTranslation();
-  const [hiddenLabels, setHiddenLabels] = useState<string[]>([]);
-  const labels = useMemo(() => data.map((point) => point.label), [data]);
+  const [hiddenLabelIds, setHiddenLabelIds] = useState<string[]>([]);
+  const labels = useMemo(
+    () => data.map((point) => ({ id: point.id, label: point.label })),
+    [data]
+  );
 
-  const toggleLabel = useCallback((label: string) => {
-    setHiddenLabels((currentHiddenLabels) =>
-      currentHiddenLabels.includes(label)
-        ? currentHiddenLabels.filter((currentLabel) => currentLabel !== label)
-        : [...currentHiddenLabels, label]
+  const toggleLabel = useCallback((id: string) => {
+    setHiddenLabelIds((currentHiddenLabelIds) =>
+      currentHiddenLabelIds.includes(id)
+        ? currentHiddenLabelIds.filter((currentId) => currentId !== id)
+        : [...currentHiddenLabelIds, id]
     );
   }, []);
 
   const chartData = useMemo(
-    () => data.filter((point) => !hiddenLabels.includes(point.label)),
-    [data, hiddenLabels]
+    () => data.filter((point) => !hiddenLabelIds.includes(point.id)),
+    [data, hiddenLabelIds]
   );
   const tooltipContent = useMemo(
     () => createMetricBarTooltipRenderer(valueLabel),
@@ -61,7 +64,7 @@ export const MetricBarChart = ({ data, valueLabel = 'Value' }: MetricBarChartPro
     <div className="metric-chart">
       <ChartLabelToggles
         labels={labels}
-        hiddenLabels={hiddenLabels}
+        hiddenLabelIds={hiddenLabelIds}
         onToggleLabel={toggleLabel}
       />
       {chartData.length > 0 ? (

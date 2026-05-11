@@ -1,5 +1,10 @@
+export type ChartLabelToggle = {
+  id: string;
+  label: string;
+};
+
 export type ChartLabelTogglesProps = {
-  labels: string[];
-  hiddenLabels: string[];
-  onToggleLabel: (label: string) => void;
+  labels: ChartLabelToggle[];
+  hiddenLabelIds: string[];
+  onToggleLabel: (id: string) => void;
 };

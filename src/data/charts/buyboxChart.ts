@@ -5,9 +5,9 @@ export const getBuyboxChart = (): DashboardBarChart => ({
   id: buyboxChartId,
   type: 'bar',
   points: [
-    { label: 'Northwind', value: 72 },
-    { label: 'Aurora', value: 64 },
-    { label: 'Summit', value: 58 },
-    { label: 'Harbor', value: 51 },
+    { id: 'northwind', label: 'Northwind', value: 72 },
+    { id: 'aurora', label: 'Aurora', value: 64 },
+    { id: 'summit', label: 'Summit', value: 58 },
+    { id: 'harbor', label: 'Harbor', value: 51 },
   ],
 });

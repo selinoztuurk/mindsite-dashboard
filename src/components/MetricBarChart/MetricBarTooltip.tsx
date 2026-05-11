@@ -12,23 +12,18 @@ export function createMetricBarTooltipRenderer(valueLabel: string) {
   };
 }
 
-function getCategoryLabel(
-  label: TooltipContentProps['label'],
+function getSeriesId(
   payload: TooltipContentProps['payload']
 ): string | undefined {
-  if (typeof label === 'string') {
-    return label;
-  }
-
   const point = payload?.[0]?.payload;
 
   if (
     point &&
     typeof point === 'object' &&
-    'label' in point &&
-    typeof point.label === 'string'
+    'id' in point &&
+    typeof point.id === 'string'
   ) {
-    return point.label;
+    return point.id;
   }
 
   return undefined;
@@ -48,8 +43,8 @@ export function MetricBarTooltip({
     return null;
   }
 
-  const categoryLabel = getCategoryLabel(label, payload);
-  const accentColor = categoryLabel ? getLabelColor(categoryLabel) : chartTheme.tooltipText;
+  const seriesId = getSeriesId(payload);
+  const accentColor = seriesId ? getLabelColor(seriesId) : chartTheme.tooltipText;
 
   return (
     <DefaultTooltipContent

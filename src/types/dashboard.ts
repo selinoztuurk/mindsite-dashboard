@@ -13,7 +13,13 @@ export const isChartWidth = (value: string): value is ChartWidth =>
 
 export type ChartWidthState = Record<DashboardChartId, ChartWidth>;
 
+export type ChartSeries = {
+  id: string;
+  label: string;
+};
+
 export type BarChartPoint = {
+  id: string;
   label: string;
   value: number;
 };
@@ -33,6 +39,7 @@ export type DashboardBarChart = {
 export type DashboardTrendChart = {
   id: DashboardChartId;
   type: 'trend';
+  series: ChartSeries[];
   points: TrendDataPoint[];
   defaultWidth?: ChartWidth;
 };

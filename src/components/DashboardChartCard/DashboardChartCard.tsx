@@ -23,7 +23,13 @@ const renderDashboardChart = (
     return <MetricBarChart data={chart.points} valueLabel={valueLabel} />;
   }
 
-  return <MetricTrendChart data={chart.points} valueLabel={valueLabel} />;
+  return (
+    <MetricTrendChart
+      data={chart.points}
+      series={chart.series}
+      valueLabel={valueLabel}
+    />
+  );
 };
 
 export const DashboardChartCard = ({ chartId }: DashboardChartCardProps) => {

@@ -1,15 +1,23 @@
 import type { DashboardTrendChart } from '../../types/dashboard';
 import { searchVisibilityChartId } from './chartIds';
 
+const searchVisibilitySeries = [
+  { id: 'amazon', label: 'Amazon' },
+  { id: 'walmart', label: 'Walmart' },
+  { id: 'target', label: 'Target' },
+  { id: 'northwind', label: 'Northwind' },
+] as const;
+
 export const getSearchVisibilityChart = (): DashboardTrendChart => ({
   id: searchVisibilityChartId,
   type: 'trend',
+  series: [...searchVisibilitySeries],
   points: [
-    { period: 'Jan', values: { Amazon: 62, Walmart: 54, Target: 48, Northwind: 41 } },
-    { period: 'Feb', values: { Amazon: 64, Walmart: 55, Target: 49, Northwind: 43 } },
-    { period: 'Mar', values: { Amazon: 67, Walmart: 57, Target: 52, Northwind: 45 } },
-    { period: 'Apr', values: { Amazon: 69, Walmart: 58, Target: 54, Northwind: 47 } },
-    { period: 'May', values: { Amazon: 71, Walmart: 60, Target: 56, Northwind: 49 } },
-    { period: 'Jun', values: { Amazon: 74, Walmart: 62, Target: 58, Northwind: 52 } },
+    { period: 'Jan', values: { amazon: 62, walmart: 54, target: 48, northwind: 41 } },
+    { period: 'Feb', values: { amazon: 64, walmart: 55, target: 49, northwind: 43 } },
+    { period: 'Mar', values: { amazon: 67, walmart: 57, target: 52, northwind: 45 } },
+    { period: 'Apr', values: { amazon: 69, walmart: 58, target: 54, northwind: 47 } },
+    { period: 'May', values: { amazon: 71, walmart: 60, target: 56, northwind: 49 } },
+    { period: 'Jun', values: { amazon: 74, walmart: 62, target: 58, northwind: 52 } },
   ],
 });

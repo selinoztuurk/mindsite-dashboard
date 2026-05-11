@@ -5,9 +5,9 @@ export const getShareOfVoiceChart = (): DashboardBarChart => ({
   id: shareOfVoiceChartId,
   type: 'bar',
   points: [
-    { label: 'Beverages', value: 34 },
-    { label: 'Snacks', value: 28 },
-    { label: 'Personal Care', value: 22 },
-    { label: 'Household', value: 16 },
+    { id: 'beverages', label: 'Beverages', value: 34 },
+    { id: 'snacks', label: 'Snacks', value: 28 },
+    { id: 'personal-care', label: 'Personal Care', value: 22 },
+    { id: 'household', label: 'Household', value: 16 },
   ],
 });

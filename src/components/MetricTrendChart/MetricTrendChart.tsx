@@ -12,23 +12,24 @@ import {
 import { ChartLabelToggles } from "../ChartLabelToggles/ChartLabelToggles";
 import { chartTheme, getLabelColor } from "../../theme/chartColors";
 import { formatPercent } from "../../utils/formatPercent";
-import { getTrendSeriesLabels } from "../../utils/trendChartLabels";
+import { getSortedTrendSeries } from "../../utils/trendChartLabels";
 import "../MetricChart/MetricChart.css";
 import type { MetricTrendChartProps } from "./MetricTrendChart.types";
 
 export const MetricTrendChart = ({
   data,
+  series,
   valueLabel = "Visibility",
 }: MetricTrendChartProps) => {
   const { t } = useTranslation();
-  const [hiddenLabels, setHiddenLabels] = useState<string[]>([]);
-  const labels = useMemo(() => getTrendSeriesLabels(data), [data]);
+  const [hiddenLabelIds, setHiddenLabelIds] = useState<string[]>([]);
+  const labels = useMemo(() => getSortedTrendSeries(series), [series]);
 
-  const toggleLabel = useCallback((label: string) => {
-    setHiddenLabels((currentHiddenLabels) =>
-      currentHiddenLabels.includes(label)
-        ? currentHiddenLabels.filter((currentLabel) => currentLabel !== label)
-        : [...currentHiddenLabels, label],
+  const toggleLabel = useCallback((id: string) => {
+    setHiddenLabelIds((currentHiddenLabelIds) =>
+      currentHiddenLabelIds.includes(id)
+        ? currentHiddenLabelIds.filter((currentId) => currentId !== id)
+        : [...currentHiddenLabelIds, id],
     );
   }, []);
 
@@ -41,19 +42,19 @@ export const MetricTrendChart = ({
     [data],
   );
 
-  const visibleLabels = useMemo(
-    () => labels.filter((label) => !hiddenLabels.includes(label)),
-    [hiddenLabels, labels],
+  const visibleSeries = useMemo(
+    () => labels.filter((entry) => !hiddenLabelIds.includes(entry.id)),
+    [hiddenLabelIds, labels],
   );
 
   return (
     <div className="metric-chart">
       <ChartLabelToggles
         labels={labels}
-        hiddenLabels={hiddenLabels}
+        hiddenLabelIds={hiddenLabelIds}
         onToggleLabel={toggleLabel}
       />
-      {visibleLabels.length > 0 ? (
+      {visibleSeries.length > 0 ? (
         <div className="metric-chart__canvas">
           <ResponsiveContainer width="100%" height="100%" minHeight={280}>
             <LineChart
@@ -91,13 +92,13 @@ export const MetricTrendChart = ({
                 ]}
                 labelStyle={{ color: chartTheme.tooltipText }}
               />
-              {visibleLabels.map((label) => (
+              {visibleSeries.map(({ id, label }) => (
                 <Line
-                  key={label}
+                  key={id}
                   type="monotone"
-                  dataKey={label}
+                  dataKey={id}
                   name={label}
-                  stroke={getLabelColor(label)}
+                  stroke={getLabelColor(id)}
                   strokeWidth={3}
                   dot={{ r: 3, strokeWidth: 0 }}
                   activeDot={{ r: 5 }}

@@ -5,20 +5,20 @@ import './ChartLabelToggles.css';
 
 export const ChartLabelToggles = ({
   labels,
-  hiddenLabels,
+  hiddenLabelIds,
   onToggleLabel,
 }: ChartLabelTogglesProps) => {
   const { t } = useTranslation();
-  const hiddenLabelSet = new Set(hiddenLabels);
+  const hiddenLabelIdSet = new Set(hiddenLabelIds);
 
   return (
     <div className="chart-label-toggles" role="group" aria-label={t('chartLabels.groupLabel')}>
-      {labels.map((label) => {
-        const isVisible = !hiddenLabelSet.has(label);
+      {labels.map(({ id, label }) => {
+        const isVisible = !hiddenLabelIdSet.has(id);
 
         return (
           <button
-            key={label}
+            key={id}
             type="button"
             className={
               isVisible
@@ -27,11 +27,11 @@ export const ChartLabelToggles = ({
             }
             aria-pressed={isVisible}
             aria-label={t('chartLabels.toggleLabel', { label })}
-            onClick={() => onToggleLabel(label)}
+            onClick={() => onToggleLabel(id)}
           >
             <span
               className="chart-label-toggles__swatch"
-              style={{ backgroundColor: getLabelColor(label) }}
+              style={{ backgroundColor: getLabelColor(id) }}
               aria-hidden="true"
             />
             <span>{label}</span>

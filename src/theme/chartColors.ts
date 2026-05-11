@@ -1,36 +1,50 @@
-const CHART_PALETTE = [
-  "#4F46E5",
-  "#0EA5E9",
-  "#14B8A6",
-  "#F59E0B",
-  "#EF4444",
-  "#8B5CF6",
-  "#EC4899",
-  "#22C55E",
-];
+const SERIES_COLOR_SATURATION = 62;
+const SERIES_COLOR_LIGHTNESS = 46;
+const SERIES_COLOR_HUE_STEP = 137;
 
-const labelColorMap = new Map<string, string>();
+const seriesColorMap = new Map<string, string>();
 
-function getPaletteIndex(label: string): number {
+function hashSeriesId(seriesId: string): number {
   let hash = 0;
 
-  for (let index = 0; index < label.length; index += 1) {
-    hash = (hash * 31 + label.charCodeAt(index)) >>> 0;
+  for (let index = 0; index < seriesId.length; index += 1) {
+    hash = Math.imul(31, hash) + seriesId.charCodeAt(index);
+    hash >>>= 0;
   }
 
-  return hash % CHART_PALETTE.length;
+  return hash;
 }
 
-export function getLabelColor(label: string): string {
-  const cachedColor = labelColorMap.get(label);
+function seriesColorFromHash(hash: number): string {
+  const hue = hash % 360;
+
+  return `hsl(${hue} ${SERIES_COLOR_SATURATION}% ${SERIES_COLOR_LIGHTNESS}%)`;
+}
+
+export function getLabelColor(seriesId: string): string {
+  const cachedColor = seriesColorMap.get(seriesId);
 
   if (cachedColor) {
     return cachedColor;
   }
 
-  const color = CHART_PALETTE[getPaletteIndex(label)];
-  labelColorMap.set(label, color);
-  return color;
+  const usedColors = new Set(seriesColorMap.values());
+  const baseHash = hashSeriesId(seriesId);
+
+  for (let attempt = 0; attempt < 360; attempt += 1) {
+    const color = seriesColorFromHash(
+      baseHash + Math.imul(attempt, SERIES_COLOR_HUE_STEP)
+    );
+
+    if (!usedColors.has(color)) {
+      seriesColorMap.set(seriesId, color);
+      return color;
+    }
+  }
+
+  const fallbackColor = seriesColorFromHash(baseHash);
+  seriesColorMap.set(seriesId, fallbackColor);
+  return fallbackColor;
 }
 
 export const chartTheme = {
