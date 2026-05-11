@@ -13,13 +13,10 @@ import {
 } from 'recharts';
 import { ChartLabelToggles } from '../ChartLabelToggles/ChartLabelToggles';
 import { chartTheme, getLabelColor } from '../../theme/chartColors';
+import { formatPercent } from '../../utils/formatPercent';
 import '../MetricChart/MetricChart.css';
 import { createMetricBarTooltipRenderer } from './MetricBarTooltip';
 import type { MetricBarChartProps } from './MetricBarChart.types';
-
-function formatPercent(value: number): string {
-  return `${value}%`;
-}
 
 function renderBarShape(props: BarShapeProps) {
   const label =

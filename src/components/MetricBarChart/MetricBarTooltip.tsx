@@ -1,5 +1,6 @@
 import { DefaultTooltipContent, type TooltipContentProps } from 'recharts';
 import { chartTheme, getLabelColor } from '../../theme/chartColors';
+import { formatPercent } from '../../utils/formatPercent';
 
 type MetricBarTooltipProps = TooltipContentProps & {
   valueLabel: string;
@@ -9,10 +10,6 @@ export function createMetricBarTooltipRenderer(valueLabel: string) {
   return function MetricBarTooltipRenderer(props: TooltipContentProps) {
     return <MetricBarTooltip {...props} valueLabel={valueLabel} />;
   };
-}
-
-function formatPercent(value: number): string {
-  return `${value}%`;
 }
 
 function getCategoryLabel(

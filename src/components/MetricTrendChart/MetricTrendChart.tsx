@@ -11,13 +11,10 @@ import {
 } from "recharts";
 import { ChartLabelToggles } from "../ChartLabelToggles/ChartLabelToggles";
 import { chartTheme, getLabelColor } from "../../theme/chartColors";
+import { formatPercent } from "../../utils/formatPercent";
 import { getTrendSeriesLabels } from "../../utils/trendChartLabels";
 import "../MetricChart/MetricChart.css";
 import type { MetricTrendChartProps } from "./MetricTrendChart.types";
-
-function formatPercent(value: number): string {
-  return `${value}%`;
-}
 
 export const MetricTrendChart = ({
   data,
