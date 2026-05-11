@@ -4,22 +4,21 @@ import type { ChartLabelTogglesProps } from './ChartLabelToggles.types';
 import './ChartLabelToggles.css';
 
 export const ChartLabelToggles = ({
-  labelKeys,
-  hiddenLabelKeys,
+  labels,
+  hiddenLabels,
   onToggleLabel,
 }: ChartLabelTogglesProps) => {
   const { t } = useTranslation();
-  const hiddenLabelSet = new Set(hiddenLabelKeys);
+  const hiddenLabelSet = new Set(hiddenLabels);
 
   return (
     <div className="chart-label-toggles" role="group" aria-label={t('chartLabels.groupLabel')}>
-      {labelKeys.map((labelKey) => {
-        const isVisible = !hiddenLabelSet.has(labelKey);
-        const label = t(`labels.${labelKey}`);
+      {labels.map((label) => {
+        const isVisible = !hiddenLabelSet.has(label);
 
         return (
           <button
-            key={labelKey}
+            key={label}
             type="button"
             className={
               isVisible
@@ -28,11 +27,11 @@ export const ChartLabelToggles = ({
             }
             aria-pressed={isVisible}
             aria-label={t('chartLabels.toggleLabel', { label })}
-            onClick={() => onToggleLabel(labelKey)}
+            onClick={() => onToggleLabel(label)}
           >
             <span
               className="chart-label-toggles__swatch"
-              style={{ backgroundColor: getLabelColor(labelKey) }}
+              style={{ backgroundColor: getLabelColor(label) }}
               aria-hidden="true"
             />
             <span>{label}</span>

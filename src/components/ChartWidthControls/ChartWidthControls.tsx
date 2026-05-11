@@ -1,9 +1,6 @@
 import { useTranslation } from 'react-i18next';
-import {
-  chartWidthOptions,
-  dashboardChartIds,
-  isChartWidth,
-} from '../../types/dashboard';
+import { dashboardChartIds } from '../../data/charts';
+import { chartWidthOptions, isChartWidth } from '../../types/dashboard';
 import type { ChartWidthControlsProps } from './ChartWidthControls.types';
 import './ChartWidthControls.css';
 

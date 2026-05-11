@@ -1,17 +1,10 @@
-import {
-  dashboardChartIds,
-  type ChartVisibilityState,
-  type DashboardChartId,
-} from '../types/dashboard';
+import { createDefaultChartVisibility } from '../data/dashboardChartDefaults';
+import { dashboardChartCatalog, dashboardChartIds } from '../data/charts';
+import type { ChartVisibilityState, DashboardChartId } from '../types/dashboard';
 
 export const CHART_VISIBILITY_STORAGE_KEY = 'mindsite-dashboard-chart-visibility';
 
-export const defaultChartVisibility: ChartVisibilityState = {
-  buybox: true,
-  availability: true,
-  searchVisibility: true,
-  shareOfVoice: true,
-};
+export const defaultChartVisibility = createDefaultChartVisibility(dashboardChartIds);
 
 export const normalizeChartVisibility = (
   value: unknown
@@ -23,11 +16,11 @@ export const normalizeChartVisibility = (
   const record = value as Record<string, unknown>;
   const normalized = { ...defaultChartVisibility };
 
-  dashboardChartIds.forEach((chartId) => {
-    const chartVisibility = record[chartId];
+  dashboardChartCatalog.forEach((chart) => {
+    const chartVisibility = record[chart.id];
 
     if (typeof chartVisibility === 'boolean') {
-      normalized[chartId] = chartVisibility;
+      normalized[chart.id] = chartVisibility;
     }
   });
 
@@ -57,12 +50,12 @@ export const writeChartVisibility = (visibility: ChartVisibilityState): void => 
     return;
   }
 
-  const payload = dashboardChartIds.reduce<Record<DashboardChartId, boolean>>(
-    (accumulator, chartId) => {
-      accumulator[chartId] = visibility[chartId];
+  const payload = dashboardChartCatalog.reduce<Record<DashboardChartId, boolean>>(
+    (accumulator, chart) => {
+      accumulator[chart.id] = visibility[chart.id] ?? true;
       return accumulator;
     },
-    {} as Record<DashboardChartId, boolean>
+    {}
   );
 
   window.localStorage.setItem(

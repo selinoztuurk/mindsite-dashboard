@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import { dashboardChartIds } from '../../types/dashboard';
+import { dashboardChartIds } from '../../data/charts';
 import type { ChartVisibilityControlsProps } from './ChartVisibilityControls.types';
 import './ChartVisibilityControls.css';
 

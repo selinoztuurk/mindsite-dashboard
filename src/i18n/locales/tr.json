@@ -38,28 +38,6 @@
       "valueLabel": "Görünürlük payı"
     }
   },
-  "labels": {
-    "northwind": "Northwind",
-    "aurora": "Aurora",
-    "summit": "Summit",
-    "harbor": "Harbor",
-    "amazon": "Amazon",
-    "walmart": "Walmart",
-    "target": "Target",
-    "bestBuy": "Best Buy",
-    "beverages": "İçecekler",
-    "snacks": "Atıştırmalıklar",
-    "personalCare": "Kişisel Bakım",
-    "household": "Ev Ürünleri"
-  },
-  "months": {
-    "jan": "Oca",
-    "feb": "Şub",
-    "mar": "Mar",
-    "apr": "Nis",
-    "may": "May",
-    "jun": "Haz"
-  },
   "chartLabels": {
     "groupLabel": "Grafik etiketleri",
     "toggleLabel": "{{label}} etiketini aç/kapat",
@@ -74,8 +52,6 @@
   "chartVisibility": {
     "label": "Görünür grafikler",
     "emptyState": "Panelde veri görmek için en az bir grafik seçin.",
-    "show": "Grafiği göster",
-    "hide": "Grafiği gizle",
     "showChart": "{{chart}} grafiğini göster",
     "hideChart": "{{chart}} grafiğini gizle"
   },

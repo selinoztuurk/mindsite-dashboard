@@ -38,28 +38,6 @@
       "valueLabel": "Share of voice"
     }
   },
-  "labels": {
-    "northwind": "Northwind",
-    "aurora": "Aurora",
-    "summit": "Summit",
-    "harbor": "Harbor",
-    "amazon": "Amazon",
-    "walmart": "Walmart",
-    "target": "Target",
-    "bestBuy": "Best Buy",
-    "beverages": "Beverages",
-    "snacks": "Snacks",
-    "personalCare": "Personal Care",
-    "household": "Household"
-  },
-  "months": {
-    "jan": "Jan",
-    "feb": "Feb",
-    "mar": "Mar",
-    "apr": "Apr",
-    "may": "May",
-    "jun": "Jun"
-  },
   "chartLabels": {
     "groupLabel": "Chart labels",
     "toggleLabel": "Toggle {{label}}",
@@ -74,8 +52,6 @@
   "chartVisibility": {
     "label": "Visible charts",
     "emptyState": "Select at least one chart to display dashboard insights.",
-    "show": "Show chart",
-    "hide": "Hide chart",
     "showChart": "Show {{chart}}",
     "hideChart": "Hide {{chart}}"
   },

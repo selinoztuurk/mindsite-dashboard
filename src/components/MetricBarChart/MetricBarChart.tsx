@@ -12,68 +12,54 @@ import {
   YAxis,
 } from 'recharts';
 import { ChartLabelToggles } from '../ChartLabelToggles/ChartLabelToggles';
-import type { BarChartPoint } from '../../types/dashboard';
 import { chartTheme, getLabelColor } from '../../theme/chartColors';
 import '../MetricChart/MetricChart.css';
 import type { MetricBarChartProps } from './MetricBarChart.types';
-
-type TranslatedBarChartPoint = BarChartPoint & {
-  label: string;
-};
 
 function formatPercent(value: number): string {
   return `${value}%`;
 }
 
 function renderBarShape(props: BarShapeProps) {
-  const labelKey =
+  const label =
     props.payload &&
     typeof props.payload === 'object' &&
-    'labelKey' in props.payload &&
-    typeof props.payload.labelKey === 'string'
-      ? props.payload.labelKey
+    'label' in props.payload &&
+    typeof props.payload.label === 'string'
+      ? props.payload.label
       : undefined;
 
   return (
     <Rectangle
       {...props}
-      fill={labelKey ? getLabelColor(labelKey) : props.fill}
+      fill={label ? getLabelColor(label) : props.fill}
     />
   );
 }
 
 export const MetricBarChart = ({ data, valueLabel = 'Value' }: MetricBarChartProps) => {
   const { t } = useTranslation();
-  const [hiddenLabelKeys, setHiddenLabelKeys] = useState<string[]>([]);
-  const labelKeys = useMemo(
-    () => data.map((point) => point.labelKey),
-    [data]
-  );
+  const [hiddenLabels, setHiddenLabels] = useState<string[]>([]);
+  const labels = useMemo(() => data.map((point) => point.label), [data]);
 
-  const toggleLabel = useCallback((labelKey: string) => {
-    setHiddenLabelKeys((currentHiddenLabelKeys) =>
-      currentHiddenLabelKeys.includes(labelKey)
-        ? currentHiddenLabelKeys.filter((key) => key !== labelKey)
-        : [...currentHiddenLabelKeys, labelKey]
+  const toggleLabel = useCallback((label: string) => {
+    setHiddenLabels((currentHiddenLabels) =>
+      currentHiddenLabels.includes(label)
+        ? currentHiddenLabels.filter((currentLabel) => currentLabel !== label)
+        : [...currentHiddenLabels, label]
     );
   }, []);
 
-  const chartData = useMemo<TranslatedBarChartPoint[]>(
-    () =>
-      data
-        .filter((point) => !hiddenLabelKeys.includes(point.labelKey))
-        .map((point) => ({
-          ...point,
-          label: t(`labels.${point.labelKey}`),
-        })),
-    [data, hiddenLabelKeys, t]
+  const chartData = useMemo(
+    () => data.filter((point) => !hiddenLabels.includes(point.label)),
+    [data, hiddenLabels]
   );
 
   return (
     <div className="metric-chart">
       <ChartLabelToggles
-        labelKeys={labelKeys}
-        hiddenLabelKeys={hiddenLabelKeys}
+        labels={labels}
+        hiddenLabels={hiddenLabels}
         onToggleLabel={toggleLabel}
       />
       {chartData.length > 0 ? (

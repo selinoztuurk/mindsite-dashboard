@@ -10,14 +10,10 @@ import {
   YAxis,
 } from 'recharts';
 import { ChartLabelToggles } from '../ChartLabelToggles/ChartLabelToggles';
-import type { SearchVisibilityTrendPoint } from '../../types/dashboard';
 import { chartTheme, getLabelColor } from '../../theme/chartColors';
+import { getTrendSeriesLabels } from '../../utils/trendChartLabels';
 import '../MetricChart/MetricChart.css';
 import type { MetricTrendChartProps } from './MetricTrendChart.types';
-
-type TranslatedTrendPoint = SearchVisibilityTrendPoint & {
-  period: string;
-};
 
 function formatPercent(value: number): string {
   return `${value}%`;
@@ -25,56 +21,42 @@ function formatPercent(value: number): string {
 
 export const MetricTrendChart = ({
   data,
-  series,
   valueLabel = 'Visibility',
 }: MetricTrendChartProps) => {
   const { t } = useTranslation();
-  const [hiddenLabelKeys, setHiddenLabelKeys] = useState<string[]>([]);
-  const labelKeys = useMemo(
-    () => series.map((item) => item.labelKey),
-    [series]
-  );
+  const [hiddenLabels, setHiddenLabels] = useState<string[]>([]);
+  const labels = useMemo(() => getTrendSeriesLabels(data), [data]);
 
-  const toggleLabel = useCallback((labelKey: string) => {
-    setHiddenLabelKeys((currentHiddenLabelKeys) =>
-      currentHiddenLabelKeys.includes(labelKey)
-        ? currentHiddenLabelKeys.filter((key) => key !== labelKey)
-        : [...currentHiddenLabelKeys, labelKey]
+  const toggleLabel = useCallback((label: string) => {
+    setHiddenLabels((currentHiddenLabels) =>
+      currentHiddenLabels.includes(label)
+        ? currentHiddenLabels.filter((currentLabel) => currentLabel !== label)
+        : [...currentHiddenLabels, label]
     );
   }, []);
 
-  const chartData = useMemo<TranslatedTrendPoint[]>(
+  const chartData = useMemo(
     () =>
       data.map((point) => ({
-        ...point,
-        period: t(`months.${point.periodKey}`),
+        period: point.period,
+        ...point.values,
       })),
-    [data, t]
+    [data]
   );
 
-  const translatedSeries = useMemo(
-    () =>
-      series.map((item) => ({
-        ...item,
-        name: t(`labels.${item.labelKey}`),
-      })),
-    [series, t]
-  );
-
-  const visibleSeries = useMemo(
-    () =>
-      translatedSeries.filter((item) => !hiddenLabelKeys.includes(item.labelKey)),
-    [hiddenLabelKeys, translatedSeries]
+  const visibleLabels = useMemo(
+    () => labels.filter((label) => !hiddenLabels.includes(label)),
+    [hiddenLabels, labels]
   );
 
   return (
     <div className="metric-chart">
       <ChartLabelToggles
-        labelKeys={labelKeys}
-        hiddenLabelKeys={hiddenLabelKeys}
+        labels={labels}
+        hiddenLabels={hiddenLabels}
         onToggleLabel={toggleLabel}
       />
-      {visibleSeries.length > 0 ? (
+      {visibleLabels.length > 0 ? (
         <div className="metric-chart__canvas">
           <ResponsiveContainer width="100%" height="100%" minHeight={280}>
             <LineChart data={chartData} margin={{ top: 8, right: 16, left: 0, bottom: 8 }}>
@@ -102,13 +84,13 @@ export const MetricTrendChart = ({
                 formatter={(value) => [formatPercent(Number(value)), valueLabel]}
                 labelStyle={{ color: chartTheme.tooltipText }}
               />
-              {visibleSeries.map((item) => (
+              {visibleLabels.map((label) => (
                 <Line
-                  key={item.labelKey}
+                  key={label}
                   type="monotone"
-                  dataKey={item.dataKey}
-                  name={item.name}
-                  stroke={getLabelColor(item.labelKey)}
+                  dataKey={label}
+                  name={label}
+                  stroke={getLabelColor(label)}
                   strokeWidth={3}
                   dot={{ r: 3, strokeWidth: 0 }}
                   activeDot={{ r: 5 }}

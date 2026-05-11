@@ -1,33 +1,31 @@
 import { useTranslation } from 'react-i18next';
-import {
-  availabilityByRetailer,
-  buyboxWinRateByBrand,
-  searchVisibilitySeries,
-  searchVisibilityTrend,
-  shareOfVoiceByCategory,
-} from '../../data/dashboardData';
 import { ChartCard } from '../../components/ChartCard/ChartCard';
 import { MetricBarChart } from '../../components/MetricBarChart/MetricBarChart';
 import { MetricTrendChart } from '../../components/MetricTrendChart/MetricTrendChart';
 import { useChartVisibility } from '../../context/ChartVisibilityContext';
-import { dashboardChartIds, type ChartWidth } from '../../types/dashboard';
-import { registerLabels } from '../../theme/chartColors';
+import { useDashboardCharts } from '../../hooks/useDashboardCharts';
+import type { ChartWidth, DashboardChartDefinition } from '../../types/dashboard';
 import './Dashboard.css';
-
-registerLabels([
-  ...buyboxWinRateByBrand.map((item) => item.labelKey),
-  ...availabilityByRetailer.map((item) => item.labelKey),
-  ...shareOfVoiceByCategory.map((item) => item.labelKey),
-  ...searchVisibilitySeries.map((item) => item.labelKey),
-]);
 
 const getChartWidthClassName = (width: ChartWidth) =>
   width === 'full' ? 'dashboard__chart--full' : 'dashboard__chart--half';
 
+const renderDashboardChart = (
+  chart: DashboardChartDefinition,
+  valueLabel: string
+) => {
+  if (chart.type === 'bar') {
+    return <MetricBarChart data={chart.points} valueLabel={valueLabel} />;
+  }
+
+  return <MetricTrendChart data={chart.points} valueLabel={valueLabel} />;
+};
+
 export const Dashboard = () => {
   const { t } = useTranslation();
+  const dashboardCharts = useDashboardCharts();
   const { visibility, expansion, widths, toggleChartExpansion } = useChartVisibility();
-  const hasVisibleCharts = dashboardChartIds.some((chartId) => visibility[chartId]);
+  const visibleCharts = dashboardCharts.filter((chart) => visibility[chart.id]);
 
   return (
     <main className="dashboard">
@@ -39,68 +37,23 @@ export const Dashboard = () => {
         </div>
       </header>
 
-      {hasVisibleCharts ? (
+      {visibleCharts.length > 0 ? (
         <div className="dashboard__grid">
-          {visibility.buybox ? (
+          {visibleCharts.map((chart) => (
             <ChartCard
-              className={getChartWidthClassName(widths.buybox)}
-              title={t('charts.buybox.title')}
-              description={t('charts.buybox.description')}
-              isChartVisible={expansion.buybox}
-              onToggleChartVisibility={() => toggleChartExpansion('buybox')}
+              key={chart.id}
+              className={getChartWidthClassName(widths[chart.id])}
+              title={t(`charts.${chart.id}.title`)}
+              description={t(`charts.${chart.id}.description`)}
+              isChartVisible={expansion[chart.id]}
+              onToggleChartVisibility={() => toggleChartExpansion(chart.id)}
             >
-              <MetricBarChart
-                data={buyboxWinRateByBrand}
-                valueLabel={t('charts.buybox.valueLabel')}
-              />
+              {renderDashboardChart(
+                chart,
+                t(`charts.${chart.id}.valueLabel`)
+              )}
             </ChartCard>
-          ) : null}
-
-          {visibility.availability ? (
-            <ChartCard
-              className={getChartWidthClassName(widths.availability)}
-              title={t('charts.availability.title')}
-              description={t('charts.availability.description')}
-              isChartVisible={expansion.availability}
-              onToggleChartVisibility={() => toggleChartExpansion('availability')}
-            >
-              <MetricBarChart
-                data={availabilityByRetailer}
-                valueLabel={t('charts.availability.valueLabel')}
-              />
-            </ChartCard>
-          ) : null}
-
-          {visibility.searchVisibility ? (
-            <ChartCard
-              className={getChartWidthClassName(widths.searchVisibility)}
-              title={t('charts.searchVisibility.title')}
-              description={t('charts.searchVisibility.description')}
-              isChartVisible={expansion.searchVisibility}
-              onToggleChartVisibility={() => toggleChartExpansion('searchVisibility')}
-            >
-              <MetricTrendChart
-                data={searchVisibilityTrend}
-                series={searchVisibilitySeries}
-                valueLabel={t('charts.searchVisibility.valueLabel')}
-              />
-            </ChartCard>
-          ) : null}
-
-          {visibility.shareOfVoice ? (
-            <ChartCard
-              className={getChartWidthClassName(widths.shareOfVoice)}
-              title={t('charts.shareOfVoice.title')}
-              description={t('charts.shareOfVoice.description')}
-              isChartVisible={expansion.shareOfVoice}
-              onToggleChartVisibility={() => toggleChartExpansion('shareOfVoice')}
-            >
-              <MetricBarChart
-                data={shareOfVoiceByCategory}
-                valueLabel={t('charts.shareOfVoice.valueLabel')}
-              />
-            </ChartCard>
-          ) : null}
+          ))}
         </div>
       ) : (
         <p className="dashboard__empty-state">{t('chartVisibility.emptyState')}</p>

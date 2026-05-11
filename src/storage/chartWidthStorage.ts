@@ -1,5 +1,9 @@
 import {
-  dashboardChartIds,
+  createDefaultChartWidth,
+  getChartDefaultWidth,
+} from '../data/dashboardChartDefaults';
+import { dashboardChartCatalog } from '../data/charts';
+import {
   isChartWidth,
   type ChartWidth,
   type ChartWidthState,
@@ -8,12 +12,7 @@ import {
 
 export const CHART_WIDTH_STORAGE_KEY = 'mindsite-dashboard-chart-width';
 
-export const defaultChartWidth: ChartWidthState = {
-  buybox: 'half',
-  availability: 'half',
-  searchVisibility: 'full',
-  shareOfVoice: 'half',
-};
+export const defaultChartWidth = createDefaultChartWidth(dashboardChartCatalog);
 
 export const normalizeChartWidth = (value: unknown): ChartWidthState => {
   if (!value || typeof value !== 'object') {
@@ -23,11 +22,11 @@ export const normalizeChartWidth = (value: unknown): ChartWidthState => {
   const record = value as Record<string, unknown>;
   const normalized = { ...defaultChartWidth };
 
-  dashboardChartIds.forEach((chartId) => {
-    const chartWidth = record[chartId];
+  dashboardChartCatalog.forEach((chart) => {
+    const chartWidth = record[chart.id];
 
     if (typeof chartWidth === 'string' && isChartWidth(chartWidth)) {
-      normalized[chartId] = chartWidth;
+      normalized[chart.id] = chartWidth;
     }
   });
 
@@ -57,12 +56,12 @@ export const writeChartWidth = (widths: ChartWidthState): void => {
     return;
   }
 
-  const payload = dashboardChartIds.reduce<Record<DashboardChartId, ChartWidth>>(
-    (accumulator, chartId) => {
-      accumulator[chartId] = widths[chartId];
+  const payload = dashboardChartCatalog.reduce<Record<DashboardChartId, ChartWidth>>(
+    (accumulator, chart) => {
+      accumulator[chart.id] = widths[chart.id] ?? getChartDefaultWidth(chart);
       return accumulator;
     },
-    {} as Record<DashboardChartId, ChartWidth>
+    {}
   );
 
   window.localStorage.setItem(CHART_WIDTH_STORAGE_KEY, JSON.stringify(payload));

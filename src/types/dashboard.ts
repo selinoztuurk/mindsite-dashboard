@@ -1,15 +1,4 @@
-export type DashboardChartId =
-  | 'buybox'
-  | 'availability'
-  | 'searchVisibility'
-  | 'shareOfVoice';
-
-export const dashboardChartIds: DashboardChartId[] = [
-  'buybox',
-  'availability',
-  'searchVisibility',
-  'shareOfVoice',
-];
+export type DashboardChartId = string;
 
 export type ChartVisibilityState = Record<DashboardChartId, boolean>;
 
@@ -25,19 +14,27 @@ export const isChartWidth = (value: string): value is ChartWidth =>
 export type ChartWidthState = Record<DashboardChartId, ChartWidth>;
 
 export type BarChartPoint = {
-  labelKey: string;
+  label: string;
   value: number;
 };
 
-export type TrendSeries = {
-  labelKey: string;
-  dataKey: string;
+export type TrendDataPoint = {
+  period: string;
+  values: Record<string, number>;
 };
 
-export type SearchVisibilityTrendPoint = {
-  periodKey: string;
-  Amazon: number;
-  Walmart: number;
-  Target: number;
-  Northwind: number;
+export type DashboardBarChart = {
+  id: DashboardChartId;
+  type: 'bar';
+  points: BarChartPoint[];
+  defaultWidth?: ChartWidth;
 };
+
+export type DashboardTrendChart = {
+  id: DashboardChartId;
+  type: 'trend';
+  points: TrendDataPoint[];
+  defaultWidth?: ChartWidth;
+};
+
+export type DashboardChartDefinition = DashboardBarChart | DashboardTrendChart;

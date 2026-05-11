@@ -7,18 +7,18 @@ import {
   useState,
   type ReactNode,
 } from 'react';
+import { dashboardChartCatalog } from '../data/charts';
 import {
   readChartVisibility,
   writeChartVisibility,
 } from '../storage/chartVisibilityStorage';
 import { readChartWidth, writeChartWidth } from '../storage/chartWidthStorage';
-import {
-  dashboardChartIds,
-  type ChartExpansionState,
-  type ChartVisibilityState,
-  type ChartWidth,
-  type ChartWidthState,
-  type DashboardChartId,
+import type {
+  ChartExpansionState,
+  ChartVisibilityState,
+  ChartWidth,
+  ChartWidthState,
+  DashboardChartId,
 } from '../types/dashboard';
 
 type ChartVisibilityContextValue = {
@@ -34,12 +34,12 @@ const ChartVisibilityContext = createContext<ChartVisibilityContextValue | null>
   null
 );
 
-const defaultChartExpansion = dashboardChartIds.reduce<ChartExpansionState>(
-  (accumulator, chartId) => {
-    accumulator[chartId] = true;
+const defaultChartExpansion = dashboardChartCatalog.reduce<ChartExpansionState>(
+  (accumulator, chart) => {
+    accumulator[chart.id] = true;
     return accumulator;
   },
-  {} as ChartExpansionState
+  {}
 );
 
 type ChartVisibilityProviderProps = {
