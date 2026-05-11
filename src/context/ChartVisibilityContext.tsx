@@ -11,18 +11,23 @@ import {
   readChartVisibility,
   writeChartVisibility,
 } from '../storage/chartVisibilityStorage';
+import { readChartWidth, writeChartWidth } from '../storage/chartWidthStorage';
 import {
   dashboardChartIds,
   type ChartExpansionState,
   type ChartVisibilityState,
+  type ChartWidth,
+  type ChartWidthState,
   type DashboardChartId,
 } from '../types/dashboard';
 
 type ChartVisibilityContextValue = {
   visibility: ChartVisibilityState;
   expansion: ChartExpansionState;
+  widths: ChartWidthState;
   toggleChartVisibility: (chartId: DashboardChartId) => void;
   toggleChartExpansion: (chartId: DashboardChartId) => void;
+  setChartWidth: (chartId: DashboardChartId, width: ChartWidth) => void;
 };
 
 const ChartVisibilityContext = createContext<ChartVisibilityContextValue | null>(
@@ -50,10 +55,15 @@ export const ChartVisibilityProvider = ({
   const [expansion, setExpansion] = useState<ChartExpansionState>(
     defaultChartExpansion
   );
+  const [widths, setWidths] = useState<ChartWidthState>(() => readChartWidth());
 
   useEffect(() => {
     writeChartVisibility(visibility);
   }, [visibility]);
+
+  useEffect(() => {
+    writeChartWidth(widths);
+  }, [widths]);
 
   const toggleChartVisibility = useCallback((chartId: DashboardChartId) => {
     setVisibility((currentVisibility) => ({
@@ -69,14 +79,33 @@ export const ChartVisibilityProvider = ({
     }));
   }, []);
 
+  const setChartWidth = useCallback(
+    (chartId: DashboardChartId, width: ChartWidth) => {
+      setWidths((currentWidths) => ({
+        ...currentWidths,
+        [chartId]: width,
+      }));
+    },
+    []
+  );
+
   const value = useMemo(
     () => ({
       visibility,
       expansion,
+      widths,
       toggleChartVisibility,
       toggleChartExpansion,
+      setChartWidth,
     }),
-    [visibility, expansion, toggleChartVisibility, toggleChartExpansion]
+    [
+      visibility,
+      expansion,
+      widths,
+      toggleChartVisibility,
+      toggleChartExpansion,
+      setChartWidth,
+    ]
   );
 
   return (

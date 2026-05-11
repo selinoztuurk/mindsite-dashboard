@@ -36,6 +36,10 @@
   max-width: 28rem;
 }
 
+.settings__section + .settings__section {
+  margin-top: 2rem;
+}
+
 .settings__section-title {
   color: #0f172a;
   font-size: 1.1rem;

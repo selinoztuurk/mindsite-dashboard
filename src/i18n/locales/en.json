@@ -7,8 +7,9 @@
   "settings": {
     "eyebrow": "Preferences",
     "title": "Dashboard settings",
-    "subtitle": "Choose which charts appear on the dashboard. Your choices are saved in this browser.",
-    "chartVisibilityTitle": "Chart visibility"
+    "subtitle": "Choose which charts appear on the dashboard and how wide each one is. Your choices are saved in this browser.",
+    "chartVisibilityTitle": "Chart visibility",
+    "chartWidthTitle": "Chart width"
   },
   "dashboard": {
     "eyebrow": "Retail intelligence",
@@ -58,6 +59,12 @@
     "apr": "Apr",
     "may": "May",
     "jun": "Jun"
+  },
+  "chartWidth": {
+    "label": "Chart widths",
+    "half": "Half width",
+    "full": "Full width",
+    "widthLabel": "Width for {{chart}}"
   },
   "chartVisibility": {
     "label": "Visible charts",

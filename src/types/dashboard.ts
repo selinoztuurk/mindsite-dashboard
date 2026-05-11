@@ -15,6 +15,15 @@ export type ChartVisibilityState = Record<DashboardChartId, boolean>;
 
 export type ChartExpansionState = Record<DashboardChartId, boolean>;
 
+export type ChartWidth = 'half' | 'full';
+
+export const chartWidthOptions: ChartWidth[] = ['half', 'full'];
+
+export const isChartWidth = (value: string): value is ChartWidth =>
+  chartWidthOptions.includes(value as ChartWidth);
+
+export type ChartWidthState = Record<DashboardChartId, ChartWidth>;
+
 export type BarChartPoint = {
   labelKey: string;
   value: number;

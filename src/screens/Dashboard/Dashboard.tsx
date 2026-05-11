@@ -10,7 +10,7 @@ import { ChartCard } from '../../components/ChartCard/ChartCard';
 import { MetricBarChart } from '../../components/MetricBarChart/MetricBarChart';
 import { MetricTrendChart } from '../../components/MetricTrendChart/MetricTrendChart';
 import { useChartVisibility } from '../../context/ChartVisibilityContext';
-import { dashboardChartIds } from '../../types/dashboard';
+import { dashboardChartIds, type ChartWidth } from '../../types/dashboard';
 import { registerLabels } from '../../theme/chartColors';
 import './Dashboard.css';
 
@@ -21,9 +21,12 @@ registerLabels([
   ...searchVisibilitySeries.map((item) => item.labelKey),
 ]);
 
+const getChartWidthClassName = (width: ChartWidth) =>
+  width === 'full' ? 'dashboard__chart--full' : 'dashboard__chart--half';
+
 export const Dashboard = () => {
   const { t } = useTranslation();
-  const { visibility, expansion, toggleChartExpansion } = useChartVisibility();
+  const { visibility, expansion, widths, toggleChartExpansion } = useChartVisibility();
   const hasVisibleCharts = dashboardChartIds.some((chartId) => visibility[chartId]);
 
   return (
@@ -40,6 +43,7 @@ export const Dashboard = () => {
         <div className="dashboard__grid">
           {visibility.buybox ? (
             <ChartCard
+              className={getChartWidthClassName(widths.buybox)}
               title={t('charts.buybox.title')}
               description={t('charts.buybox.description')}
               isChartVisible={expansion.buybox}
@@ -54,6 +58,7 @@ export const Dashboard = () => {
 
           {visibility.availability ? (
             <ChartCard
+              className={getChartWidthClassName(widths.availability)}
               title={t('charts.availability.title')}
               description={t('charts.availability.description')}
               isChartVisible={expansion.availability}
@@ -68,7 +73,7 @@ export const Dashboard = () => {
 
           {visibility.searchVisibility ? (
             <ChartCard
-              className="dashboard__wide-card"
+              className={getChartWidthClassName(widths.searchVisibility)}
               title={t('charts.searchVisibility.title')}
               description={t('charts.searchVisibility.description')}
               isChartVisible={expansion.searchVisibility}
@@ -84,6 +89,7 @@ export const Dashboard = () => {
 
           {visibility.shareOfVoice ? (
             <ChartCard
+              className={getChartWidthClassName(widths.shareOfVoice)}
               title={t('charts.shareOfVoice.title')}
               description={t('charts.shareOfVoice.description')}
               isChartVisible={expansion.shareOfVoice}

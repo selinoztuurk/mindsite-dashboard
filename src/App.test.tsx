@@ -4,6 +4,7 @@ import { MemoryRouter } from 'react-router-dom';
 import { AppRoutes } from './App';
 import { ChartVisibilityProvider } from './context/ChartVisibilityContext';
 import { CHART_VISIBILITY_STORAGE_KEY } from './storage/chartVisibilityStorage';
+import { CHART_WIDTH_STORAGE_KEY } from './storage/chartWidthStorage';
 
 const renderApp = (initialRoute = '/') => {
   render(
@@ -104,6 +105,59 @@ test('persists chart visibility in local storage', async () => {
   );
 
   expect(storedVisibility.searchVisibility).toBe(false);
+});
+
+test('updates chart width from settings controls', async () => {
+  renderApp('/settings');
+
+  const buyboxWidthSelect = screen.getByRole('combobox', {
+    name: /width for buybox win rate by brand/i,
+  });
+
+  await userEvent.selectOptions(buyboxWidthSelect, 'full');
+  await userEvent.click(screen.getByRole('link', { name: /dashboard/i }));
+
+  const buyboxCard = screen
+    .getByRole('heading', { name: /buybox win rate by brand/i })
+    .closest('section');
+
+  expect(buyboxCard).toHaveClass('dashboard__chart--full');
+});
+
+test('persists chart width in local storage', async () => {
+  renderApp('/settings');
+
+  const buyboxWidthSelect = screen.getByRole('combobox', {
+    name: /width for buybox win rate by brand/i,
+  });
+
+  await userEvent.selectOptions(buyboxWidthSelect, 'full');
+
+  const storedWidths = JSON.parse(
+    window.localStorage.getItem(CHART_WIDTH_STORAGE_KEY) ?? '{}'
+  );
+
+  expect(storedWidths.buybox).toBe('full');
+});
+
+test('loads chart width from local storage', () => {
+  window.localStorage.setItem(
+    CHART_WIDTH_STORAGE_KEY,
+    JSON.stringify({
+      buybox: 'full',
+      availability: 'half',
+      searchVisibility: 'half',
+      shareOfVoice: 'half',
+    })
+  );
+
+  renderApp();
+
+  const buyboxCard = screen
+    .getByRole('heading', { name: /buybox win rate by brand/i })
+    .closest('section');
+
+  expect(buyboxCard).toHaveClass('dashboard__chart--full');
 });
 
 test('loads chart visibility from local storage', () => {

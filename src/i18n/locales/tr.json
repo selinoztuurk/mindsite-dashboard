@@ -7,8 +7,9 @@
   "settings": {
     "eyebrow": "Tercihler",
     "title": "Panel ayarları",
-    "subtitle": "Panelde hangi grafiklerin görüneceğini seçin. Seçimleriniz bu tarayıcıda kaydedilir.",
-    "chartVisibilityTitle": "Grafik görünürlüğü"
+    "subtitle": "Panelde hangi grafiklerin görüneceğini ve her birinin genişliğini seçin. Seçimleriniz bu tarayıcıda kaydedilir.",
+    "chartVisibilityTitle": "Grafik görünürlüğü",
+    "chartWidthTitle": "Grafik genişliği"
   },
   "dashboard": {
     "eyebrow": "Perakende zekâsı",
@@ -58,6 +59,12 @@
     "apr": "Nis",
     "may": "May",
     "jun": "Haz"
+  },
+  "chartWidth": {
+    "label": "Grafik genişlikleri",
+    "half": "Yarım genişlik",
+    "full": "Tam genişlik",
+    "widthLabel": "{{chart}} genişliği"
   },
   "chartVisibility": {
     "label": "Görünür grafikler",
