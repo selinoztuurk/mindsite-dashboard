@@ -1,10 +1,11 @@
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
+import type { BarShapeProps } from 'recharts';
 import {
   Bar,
   BarChart,
   CartesianGrid,
-  Cell,
+  Rectangle,
   ResponsiveContainer,
   Tooltip,
   XAxis,
@@ -20,6 +21,23 @@ type TranslatedBarChartPoint = BarChartPoint & {
 
 function formatPercent(value: number): string {
   return `${value}%`;
+}
+
+function renderBarShape(props: BarShapeProps) {
+  const labelKey =
+    props.payload &&
+    typeof props.payload === 'object' &&
+    'labelKey' in props.payload &&
+    typeof props.payload.labelKey === 'string'
+      ? props.payload.labelKey
+      : undefined;
+
+  return (
+    <Rectangle
+      {...props}
+      fill={labelKey ? getLabelColor(labelKey) : props.fill}
+    />
+  );
 }
 
 export const MetricBarChart = ({ data, valueLabel = 'Value' }: MetricBarChartProps) => {
@@ -66,11 +84,12 @@ export const MetricBarChart = ({ data, valueLabel = 'Value' }: MetricBarChartPro
           formatter={(value) => [formatPercent(Number(value)), valueLabel]}
           labelStyle={{ color: chartTheme.tooltipText }}
         />
-        <Bar dataKey="value" radius={[8, 8, 0, 0]} maxBarSize={56}>
-          {chartData.map((entry) => (
-            <Cell key={entry.labelKey} fill={getLabelColor(entry.labelKey)} />
-          ))}
-        </Bar>
+        <Bar
+          dataKey="value"
+          radius={[8, 8, 0, 0]}
+          maxBarSize={56}
+          shape={renderBarShape}
+        />
       </BarChart>
     </ResponsiveContainer>
   );
