@@ -18,6 +18,15 @@
   padding: 0.3rem 0.65rem;
 }
 
+.chart-label-toggles__button:focus:not(:focus-visible) {
+  outline: none;
+}
+
+.chart-label-toggles__button:focus-visible {
+  outline: 2px solid #4f46e5;
+  outline-offset: 2px;
+}
+
 .chart-label-toggles__button--active {
   background: #eef2ff;
   border-color: #a5b4fc;

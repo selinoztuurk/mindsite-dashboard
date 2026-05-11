@@ -52,6 +52,15 @@
   border-color: #a5b4fc;
 }
 
+.chart-card__toggle:focus:not(:focus-visible) {
+  outline: none;
+}
+
+.chart-card__toggle:focus-visible {
+  outline: 2px solid #4f46e5;
+  outline-offset: 2px;
+}
+
 .chart-card__toggle-icon {
   display: block;
   height: 1rem;
