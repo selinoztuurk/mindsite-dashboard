@@ -5,4 +5,6 @@ export type ChartCardProps = {
   description?: string;
   children: ReactNode;
   className?: string;
+  isChartVisible: boolean;
+  onToggleChartVisibility: () => void;
 };

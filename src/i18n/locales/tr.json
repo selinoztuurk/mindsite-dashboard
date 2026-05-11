@@ -1,4 +1,15 @@
 {
+  "navigation": {
+    "label": "Ana gezinme",
+    "dashboard": "Panel",
+    "settings": "Ayarlar"
+  },
+  "settings": {
+    "eyebrow": "Tercihler",
+    "title": "Panel ayarları",
+    "subtitle": "Panelde hangi grafiklerin görüneceğini seçin. Seçimleriniz bu tarayıcıda kaydedilir.",
+    "chartVisibilityTitle": "Grafik görünürlüğü"
+  },
   "dashboard": {
     "eyebrow": "Perakende zekâsı",
     "title": "Performans paneli",
@@ -47,6 +58,14 @@
     "apr": "Nis",
     "may": "May",
     "jun": "Haz"
+  },
+  "chartVisibility": {
+    "label": "Görünür grafikler",
+    "emptyState": "Panelde veri görmek için en az bir grafik seçin.",
+    "show": "Grafiği göster",
+    "hide": "Grafiği gizle",
+    "showChart": "{{chart}} grafiğini göster",
+    "hideChart": "{{chart}} grafiğini gizle"
   },
   "languageSwitcher": {
     "label": "Dil",

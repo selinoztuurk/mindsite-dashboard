@@ -1,0 +1,39 @@
+.app-navigation {
+  align-items: center;
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+  margin: 0 auto;
+  max-width: 1240px;
+  padding: 1.25rem 1.5rem 0;
+}
+
+.app-navigation__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.app-navigation__link {
+  border-radius: 999px;
+  color: #475569;
+  font-size: 0.9rem;
+  font-weight: 600;
+  padding: 0.45rem 0.9rem;
+  text-decoration: none;
+}
+
+.app-navigation__link:hover {
+  background: #eef2ff;
+  color: #312e81;
+}
+
+.app-navigation__link--active {
+  background: #4f46e5;
+  color: #ffffff;
+}
+
+.app-navigation__link--active:hover {
+  background: #4338ca;
+  color: #ffffff;
+}

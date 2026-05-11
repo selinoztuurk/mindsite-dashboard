@@ -16,6 +16,23 @@
   flex: 1;
 }
 
+.dashboard__actions {
+  align-items: flex-start;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.dashboard__empty-state {
+  background: #ffffff;
+  border: 1px dashed #cbd5e1;
+  border-radius: 16px;
+  color: #64748b;
+  margin: 0;
+  padding: 2rem 1.5rem;
+  text-align: center;
+}
+
 .dashboard__eyebrow {
   color: #4f46e5;
   font-size: 0.8rem;

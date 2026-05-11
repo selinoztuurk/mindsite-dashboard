@@ -1,4 +1,15 @@
 {
+  "navigation": {
+    "label": "Main navigation",
+    "dashboard": "Dashboard",
+    "settings": "Settings"
+  },
+  "settings": {
+    "eyebrow": "Preferences",
+    "title": "Dashboard settings",
+    "subtitle": "Choose which charts appear on the dashboard. Your choices are saved in this browser.",
+    "chartVisibilityTitle": "Chart visibility"
+  },
   "dashboard": {
     "eyebrow": "Retail intelligence",
     "title": "Performance dashboard",
@@ -47,6 +58,14 @@
     "apr": "Apr",
     "may": "May",
     "jun": "Jun"
+  },
+  "chartVisibility": {
+    "label": "Visible charts",
+    "emptyState": "Select at least one chart to display dashboard insights.",
+    "show": "Show chart",
+    "hide": "Hide chart",
+    "showChart": "Show {{chart}}",
+    "hideChart": "Hide {{chart}}"
   },
   "languageSwitcher": {
     "label": "Language",

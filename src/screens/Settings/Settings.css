@@ -1,0 +1,44 @@
+.settings {
+  margin: 0 auto;
+  max-width: 1240px;
+  padding: 1.5rem 1.5rem 3rem;
+}
+
+.settings__header {
+  margin-bottom: 2rem;
+}
+
+.settings__eyebrow {
+  color: #4f46e5;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  margin: 0 0 0.5rem;
+  text-transform: uppercase;
+}
+
+.settings__title {
+  color: #0f172a;
+  font-size: clamp(1.75rem, 3vw, 2.35rem);
+  font-weight: 700;
+  margin: 0;
+}
+
+.settings__subtitle {
+  color: #64748b;
+  font-size: 1rem;
+  line-height: 1.6;
+  margin: 0.75rem 0 0;
+  max-width: 42rem;
+}
+
+.settings__section {
+  max-width: 28rem;
+}
+
+.settings__section-title {
+  color: #0f172a;
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0 0 1rem;
+}
