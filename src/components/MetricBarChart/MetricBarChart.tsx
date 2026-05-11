@@ -53,7 +53,7 @@ export const MetricBarChart = ({ data, valueLabel = 'Value' }: MetricBarChartPro
   );
 
   return (
-    <ResponsiveContainer width="100%" height="100%">
+    <ResponsiveContainer width="100%" height="100%" minHeight={280}>
       <BarChart
         data={chartData}
         margin={{ top: 8, right: 16, left: 0, bottom: 8 }}

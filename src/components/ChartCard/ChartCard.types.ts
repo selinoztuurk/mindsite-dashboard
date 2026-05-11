@@ -4,4 +4,5 @@ export type ChartCardProps = {
   title: string;
   description?: string;
   children: ReactNode;
+  className?: string;
 };

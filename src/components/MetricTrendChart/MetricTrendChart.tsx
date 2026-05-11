@@ -48,8 +48,8 @@ export const MetricTrendChart = ({
   );
 
   return (
-    <ResponsiveContainer width="100%" height="100%">
-      <LineChart data={chartData} margin={{ top: 8, right: 16, left: 0, bottom: 8 }}>
+    <ResponsiveContainer width="100%" height="100%" minHeight={280}>
+      <LineChart data={chartData} margin={{ top: 8, right: 16, left: 0, bottom: 32 }}>
         <CartesianGrid stroke={chartTheme.grid} strokeDasharray="4 4" vertical={false} />
         <XAxis
           dataKey="period"

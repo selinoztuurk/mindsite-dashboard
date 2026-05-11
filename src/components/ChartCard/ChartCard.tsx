@@ -1,9 +1,11 @@
 import './ChartCard.css';
 import type { ChartCardProps } from './ChartCard.types';
 
-export const ChartCard = ({ title, description, children }: ChartCardProps) => {
+export const ChartCard = ({ title, description, children, className }: ChartCardProps) => {
+  const cardClassName = className ? `chart-card ${className}` : 'chart-card';
+
   return (
-    <section className="chart-card">
+    <section className={cardClassName}>
       <header className="chart-card__header">
         <h2 className="chart-card__title">{title}</h2>
         {description ? (

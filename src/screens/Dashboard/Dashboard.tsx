@@ -55,18 +55,17 @@ export const Dashboard = () => {
           />
         </ChartCard>
 
-        <section className="dashboard__wide-card">
-          <ChartCard
-            title={t("charts.searchVisibility.title")}
-            description={t("charts.searchVisibility.description")}
-          >
-            <MetricTrendChart
-              data={searchVisibilityTrend}
-              series={searchVisibilitySeries}
-              valueLabel={t("charts.searchVisibility.valueLabel")}
-            />
-          </ChartCard>
-        </section>
+        <ChartCard
+          className="dashboard__wide-card"
+          title={t("charts.searchVisibility.title")}
+          description={t("charts.searchVisibility.description")}
+        >
+          <MetricTrendChart
+            data={searchVisibilityTrend}
+            series={searchVisibilitySeries}
+            valueLabel={t("charts.searchVisibility.valueLabel")}
+          />
+        </ChartCard>
 
         <ChartCard
           title={t("charts.shareOfVoice.title")}
