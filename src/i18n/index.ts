@@ -7,6 +7,12 @@ import tr from './locales/tr.json';
 export const supportedLanguages = ['en', 'tr'] as const;
 export type SupportedLanguage = (typeof supportedLanguages)[number];
 
+const supportedLanguageSet = new Set<string>(supportedLanguages);
+
+export function isSupportedLanguage(value: string): value is SupportedLanguage {
+  return supportedLanguageSet.has(value);
+}
+
 void i18n
   .use(LanguageDetector)
   .use(initReactI18next)
