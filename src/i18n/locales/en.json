@@ -1,0 +1,56 @@
+{
+  "dashboard": {
+    "eyebrow": "Retail intelligence",
+    "title": "Performance dashboard",
+    "subtitle": "Shared label colors keep brands and retailers recognizable across charts."
+  },
+  "charts": {
+    "buybox": {
+      "title": "Buybox Win Rate by Brand",
+      "description": "Share of monitored listings where each brand holds the buybox.",
+      "valueLabel": "Win rate"
+    },
+    "availability": {
+      "title": "Availability by Retailer",
+      "description": "In-stock rate across priority retailers for tracked SKUs.",
+      "valueLabel": "Availability"
+    },
+    "searchVisibility": {
+      "title": "Overall Search Visibility Trend",
+      "description": "Six-month visibility index for retailers and the Northwind brand.",
+      "valueLabel": "Visibility"
+    },
+    "shareOfVoice": {
+      "title": "Share of Voice by Category",
+      "description": "Category-level share of paid and organic shelf presence.",
+      "valueLabel": "Share of voice"
+    }
+  },
+  "labels": {
+    "northwind": "Northwind",
+    "aurora": "Aurora",
+    "summit": "Summit",
+    "harbor": "Harbor",
+    "amazon": "Amazon",
+    "walmart": "Walmart",
+    "target": "Target",
+    "bestBuy": "Best Buy",
+    "beverages": "Beverages",
+    "snacks": "Snacks",
+    "personalCare": "Personal Care",
+    "household": "Household"
+  },
+  "months": {
+    "jan": "Jan",
+    "feb": "Feb",
+    "mar": "Mar",
+    "apr": "Apr",
+    "may": "May",
+    "jun": "Jun"
+  },
+  "languageSwitcher": {
+    "label": "Language",
+    "en": "English",
+    "tr": "Turkish"
+  }
+}

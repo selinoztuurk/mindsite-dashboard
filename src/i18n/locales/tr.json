@@ -1,0 +1,56 @@
+{
+  "dashboard": {
+    "eyebrow": "Perakende zekâsı",
+    "title": "Performans paneli",
+    "subtitle": "Paylaşılan etiket renkleri, markaların ve perakendecilerin grafikler arasında kolayca ayırt edilmesini sağlar."
+  },
+  "charts": {
+    "buybox": {
+      "title": "Markaya Göre Buybox Kazanma Oranı",
+      "description": "Her markanın buybox sahibi olduğu izlenen listelemelerin oranı.",
+      "valueLabel": "Kazanma oranı"
+    },
+    "availability": {
+      "title": "Perakendeciye Göre Stok Durumu",
+      "description": "Takip edilen SKU’lar için öncelikli perakendecilerdeki stokta bulunma oranı.",
+      "valueLabel": "Stok durumu"
+    },
+    "searchVisibility": {
+      "title": "Genel Arama Görünürlüğü Trendi",
+      "description": "Perakendeciler ve Northwind markası için altı aylık görünürlük endeksi.",
+      "valueLabel": "Görünürlük"
+    },
+    "shareOfVoice": {
+      "title": "Kategoriye Göre Görünürlük Payı",
+      "description": "Ücretli ve organik raf görünürlüğünün kategori bazındaki payı.",
+      "valueLabel": "Görünürlük payı"
+    }
+  },
+  "labels": {
+    "northwind": "Northwind",
+    "aurora": "Aurora",
+    "summit": "Summit",
+    "harbor": "Harbor",
+    "amazon": "Amazon",
+    "walmart": "Walmart",
+    "target": "Target",
+    "bestBuy": "Best Buy",
+    "beverages": "İçecekler",
+    "snacks": "Atıştırmalıklar",
+    "personalCare": "Kişisel Bakım",
+    "household": "Ev Ürünleri"
+  },
+  "months": {
+    "jan": "Oca",
+    "feb": "Şub",
+    "mar": "Mar",
+    "apr": "Nis",
+    "may": "May",
+    "jun": "Haz"
+  },
+  "languageSwitcher": {
+    "label": "Dil",
+    "en": "İngilizce",
+    "tr": "Türkçe"
+  }
+}
