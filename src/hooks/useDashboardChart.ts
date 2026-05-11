@@ -1,20 +1,28 @@
-import { useEffect, useState } from 'react';
-import { fetchDashboardChart } from '../services/dashboardChartService';
-import type { DashboardChartDefinition, DashboardChartId } from '../types/dashboard';
+import { useEffect, useState } from "react";
+import { showErrorToast } from "../context/ToastContext";
+import { fetchDashboardChart } from "../services/dashboardChartService";
+import type {
+  DashboardChartDefinition,
+  DashboardChartId,
+} from "../types/dashboard";
+import { getDashboardChartErrorMessage } from "../utils/errorMessage";
 
 export type DashboardChartLoadState = {
-  status: 'loading' | 'loaded' | 'error';
+  status: "loading" | "loaded" | "error";
   chart: DashboardChartDefinition | null;
 };
 
-export const useDashboardChart = (chartId: DashboardChartId): DashboardChartLoadState => {
-  const [status, setStatus] = useState<DashboardChartLoadState['status']>('loading');
+export const useDashboardChart = (
+  chartId: DashboardChartId,
+): DashboardChartLoadState => {
+  const [status, setStatus] =
+    useState<DashboardChartLoadState["status"]>("loading");
   const [chart, setChart] = useState<DashboardChartDefinition | null>(null);
 
   useEffect(() => {
     let isCancelled = false;
 
-    setStatus('loading');
+    setStatus("loading");
     setChart(null);
 
     fetchDashboardChart(chartId)
@@ -24,12 +32,15 @@ export const useDashboardChart = (chartId: DashboardChartId): DashboardChartLoad
         }
 
         setChart(loadedChart);
-        setStatus('loaded');
+        setStatus("loaded");
       })
       .catch(() => {
-        if (!isCancelled) {
-          setStatus('error');
+        if (isCancelled) {
+          return;
         }
+
+        setStatus("error");
+        showErrorToast(getDashboardChartErrorMessage(chartId));
       });
 
     return () => {

@@ -32,4 +32,12 @@ void i18n
     },
   });
 
+type TranslateOptions = Record<string, unknown>;
+
+export const translate = (key: string, options?: TranslateOptions): string =>
+  (i18n.t as (translationKey: string, translationOptions?: TranslateOptions) => string)(
+    key,
+    options
+  );
+
 export default i18n;

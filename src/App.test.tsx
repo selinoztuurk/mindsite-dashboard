@@ -3,6 +3,7 @@ import userEvent from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router-dom';
 import { AppRoutes } from './App';
 import { ChartVisibilityProvider } from './context/ChartVisibilityContext';
+import { ToastProvider } from './context/ToastContext';
 import { dashboardChartFetchers } from './data/charts';
 import { fetchDashboardChart } from './services/dashboardChartService';
 import { CHART_VISIBILITY_STORAGE_KEY } from './storage/chartVisibilityStorage';
@@ -18,11 +19,13 @@ const waitForDashboardChartsToLoad = async () => {
 
 const renderApp = async (initialRoute = '/') => {
   render(
-    <ChartVisibilityProvider>
-      <MemoryRouter initialEntries={[initialRoute]}>
-        <AppRoutes />
-      </MemoryRouter>
-    </ChartVisibilityProvider>
+    <ToastProvider>
+      <ChartVisibilityProvider>
+        <MemoryRouter initialEntries={[initialRoute]}>
+          <AppRoutes />
+        </MemoryRouter>
+      </ChartVisibilityProvider>
+    </ToastProvider>
   );
 
   if (initialRoute === '/') {
@@ -35,6 +38,23 @@ beforeEach(() => {
   jest.mocked(fetchDashboardChart).mockImplementation((chartId) =>
     Promise.resolve(dashboardChartFetchers[chartId]())
   );
+});
+
+test('shows a toast when a dashboard chart fails to load', async () => {
+  jest.mocked(fetchDashboardChart).mockImplementation((chartId) => {
+    if (chartId === 'buybox') {
+      return Promise.reject(new Error('Network error'));
+    }
+
+    return Promise.resolve(dashboardChartFetchers[chartId]());
+  });
+
+  await renderApp();
+
+  const toast = await screen.findByRole('alert');
+
+  expect(toast).toHaveTextContent(/unable to load buybox win rate by brand/i);
+  expect(toast).toHaveClass('toast');
 });
 
 test('renders dashboard charts', async () => {

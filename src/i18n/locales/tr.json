@@ -63,5 +63,8 @@
     "label": "Dil",
     "en": "İngilizce",
     "tr": "Türkçe"
+  },
+  "notifications": {
+    "defaultError": "Bir şeyler ters gitti. Lütfen tekrar deneyin."
   }
 }

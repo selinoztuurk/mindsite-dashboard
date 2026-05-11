@@ -63,5 +63,8 @@
     "label": "Language",
     "en": "English",
     "tr": "Turkish"
+  },
+  "notifications": {
+    "defaultError": "Something went wrong. Please try again."
   }
 }
